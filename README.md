@@ -1,46 +1,166 @@
-# Getting Started with Create React App
+Image Editor App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modular image editor built using React + TypeScript + Fabric.js + TailwindCSS (CRA).
 
-## Available Scripts
+Supports drawing tools, shapes, text annotations, crop, undo/redo, zoom, and export.
 
-In the project directory, you can run:
+------------------------------------ Folder Structure
+image-editor-app/
+│
+├── public/
+│
+├── src/
+│   │
+│   ├── components/
+│   │   └── editor/
+│   │       ├── CanvasArea.tsx        # Canvas wrapper UI
+│   │       ├── EditorToolbar.tsx     # Toolbar layout
+│   │       ├── ToolbarButtons.tsx    # Reusable button component
+│   │       ├── ImageEditor.tsx       # Main editor container
+│   │       └── ImageEditor.css
+│   │
+│   ├── hooks/
+│   │   ├── useFabricCanvas.ts        # Fabric canvas logic
+│   │   └── useHistory.ts             # Undo / Redo logic
+│   │
+│   ├── utils/
+│   │   └── exportUtils.ts            # Export image & JSON
+│   │
+│   ├── index.tsx
+│   ├── index.css
+│   ├── App.tsx
+│   └── App.css
+│
+├── tailwind.config.js
+├── postcss.config.js
+├── package.json
+└── README.md
+------------------------------------------- Architecture Overview
+components/editor/
 
-### `npm start`
+UI Layer only.
+No Fabric business logic inside.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ImageEditor.tsx
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Combines canvas + toolbar
 
-### `npm test`
+Connects hooks to UI
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+EditorToolbar.tsx
 
-### `npm run build`
+Toolbar layout
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Uses reusable buttons
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+ToolbarButtons.tsx
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Reusable styled button component
 
-### `npm run eject`
+CanvasArea.tsx
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Responsible only for canvas container styling
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+=================================================== hooks/
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Business logic layer.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+useFabricCanvas.ts
 
-## Learn More
+Handles:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Canvas initialization
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Resize handling
+
+Upload image
+
+Drawing mode
+
+Shapes
+
+Text
+
+Rotate
+
+Crop
+
+Zoom
+
+No Fabric objects stored in React state.
+
+useHistory.ts
+
+Handles:
+
+Snapshot-based history
+
+Undo
+
+Redo
+
+Event listeners
+
+Prevent duplicate states
+
+--------------------------------------- utils/
+
+Utility helpers.
+
+exportUtils.ts
+
+Export as PNG
+
+Export as JSON
+
+---------------------------------------- Setup
+Install
+npm install
+
+Run
+npm start
+
+----------------------------------- Tailwind Setup (CRA)
+tailwind.config.js
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: { extend: {} },
+  plugins: [],
+}
+
+postcss.config.js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+
+index.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+------------------------------------Features
+
+Upload image
+
+Free drawing
+
+Rectangle / Circle
+
+Text annotation
+
+Rotate selected object
+
+Crop image
+
+Undo / Redo
+
+Zoom
+
+Export PNG
+
+Export JSON
+
+Responsive layout
