@@ -16,6 +16,9 @@ const ImageEditor = () => {
         addText,
         rotateImage,
         zoom,
+          startCrop,
+    applyCrop,
+    cancelCrop,
     } = useFabricCanvas();
 
     const {  undo, redo } = useHistory(canvasRef.current);
@@ -36,6 +39,9 @@ const ImageEditor = () => {
                         undo={undo}
                         redo={redo}
                         zoom={zoom}
+                        startCrop={ startCrop}
+                        applyCrop={applyCrop}
+                        cancelCrop={cancelCrop}
                     />
                 </div>
             </div>
