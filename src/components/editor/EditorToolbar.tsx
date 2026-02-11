@@ -18,6 +18,7 @@ interface Props {
 export const Toolbar = (props: Props) => {
     return (
         <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+                    <h1 className="text-xl font-semibold text-gray-800 pb-2">Image Editor</h1>
             <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
                 <div className="flex flex-wrap items-center gap-3">
                     <label className="cursor-pointer">
