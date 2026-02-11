@@ -1,0 +1,37 @@
+.editor-wrapper {
+  padding: 16px;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.toolbar button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.toolbar button:hover {
+  background: #e9ecef;
+}
+
+.toolbar .primary {
+  background: #007bff;
+  color: white;
+  border: none;
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background: #fafafa;
+}
