@@ -21,7 +21,7 @@ export const useHistory = (canvas: fabric.Canvas | null) => {
     redoStack.current = [];
   };
 
-  // Initialize first state (IMPORTANT)
+
   const initHistory = () => {
     if (!canvas) return;
     history.current = [JSON.stringify(canvas.toJSON())];
