@@ -1,35 +1,66 @@
-// components/editor/hooks/useHistory.ts
-
 import { useRef } from "react";
-import fabric  from "fabric";
+import  fabric  from "fabric";
 
 export const useHistory = (canvas: fabric.Canvas | null) => {
-  const undoStack = useRef<string[]>([]);
+  const history = useRef<string[]>([]);
   const redoStack = useRef<string[]>([]);
+  const isRestoring = useRef(false);
 
+  // Save current canvas state
   const saveState = () => {
+    if (!canvas || isRestoring.current) return;
+
+    const json = JSON.stringify(canvas.toJSON());
+
+    // Avoid duplicate state push
+    if (history.current.length > 0 && history.current[history.current.length - 1] === json) {
+      return;
+    }
+
+    history.current.push(json);
+    redoStack.current = [];
+  };
+
+  // Initialize first state (IMPORTANT)
+  const initHistory = () => {
     if (!canvas) return;
-    undoStack.current.push(JSON.stringify(canvas.toJSON()));
+    history.current = [JSON.stringify(canvas.toJSON())];
     redoStack.current = [];
   };
 
   const undo = () => {
-    if (!canvas || undoStack.current.length < 2) return;
+    if (!canvas || history.current.length <= 1) return;
 
-    redoStack.current.push(undoStack.current.pop()!);
-    const prevState = undoStack.current[undoStack.current.length - 1];
+    isRestoring.current = true;
 
-    canvas.loadFromJSON(prevState, () => canvas.renderAll());
+    const currentState = history.current.pop();
+    if (currentState) {
+      redoStack.current.push(currentState);
+    }
+
+    const previousState = history.current[history.current.length - 1];
+
+    canvas.loadFromJSON(previousState, () => {
+      canvas.renderAll();
+      isRestoring.current = false;
+    });
   };
 
   const redo = () => {
     if (!canvas || redoStack.current.length === 0) return;
 
-    const state = redoStack.current.pop()!;
-    undoStack.current.push(state);
+    isRestoring.current = true;
 
-    canvas.loadFromJSON(state, () => canvas.renderAll());
+    const state = redoStack.current.pop();
+    if (!state) return;
+
+    history.current.push(state);
+
+    canvas.loadFromJSON(state, () => {
+      canvas.renderAll();
+      isRestoring.current = false;
+    });
   };
 
-  return { saveState, undo, redo };
+  return { saveState, undo, redo, initHistory };
 };
